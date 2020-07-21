@@ -1,0 +1,30 @@
+body {
+    background-color: cadetblue;
+}
+
+h1 {
+    text-align: center;
+}
+
+#main {
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+}
+
+img {
+    height: 250px;
+    width: 300px;
+    object-fit: cover;
+    padding: 5px;
+}
+
+.container {
+    border: 3px gray solid;
+    border-radius: 5px;
+    background-color: white;
+}
+
+.container p {
+    padding-left: 5px;
+}
