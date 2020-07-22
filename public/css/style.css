@@ -6,7 +6,7 @@ h1 {
     text-align: center;
 }
 
-#main {
+#container {
     display: flex;
     justify-content: space-evenly;
     flex-wrap: wrap;
