@@ -38,14 +38,14 @@ app.get("/images", (req, res) => {
 });
 
 app.post("/upload", uploader.single("file"), s3.upload, (req, res) => {
-    // console.log("req.file from index.js post/upload: ", req.file);
+    console.log("req.file from index.js post/upload: ", req.file);
     // console.log("req.body from index.js post/upload: ", req.body);
     const { title, desc, username } = req.body;
     const { filename } = req.file;
     const url = s3Url + filename;
 
-    db.addImage(url, username, title, desc).then((response) => {
-        res.json(response.rows[0]);
+    db.addImage(url, username, title, desc).then((results) => {
+        res.json(results.rows[0]);
     });
 
     // if (req.file) {

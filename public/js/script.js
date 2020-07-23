@@ -12,8 +12,8 @@
             var self = this;
             axios
                 .get("/images")
-                .then(function (response) {
-                    self.images = response.data;
+                .then(function (results) {
+                    self.images = results.data;
                     console.log(self.images);
                 })
                 .catch(function (error) {
@@ -42,9 +42,11 @@
             },
             handleChange: function (e) {
                 console.log("this.file: ", this.file);
-
                 console.log("e.target.files[0]: ", e.target.files[0]);
                 this.file = e.target.files[0];
+            },
+            openModal: function (e) {
+                console.log(e);
             },
         },
     });
