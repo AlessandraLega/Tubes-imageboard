@@ -15,3 +15,11 @@ module.exports.addImage = function (url, username, title, description) {
     let params = [url, username, title, description];
     return db.query(q, params);
 };
+
+module.exports.getModalImage = function (id) {
+    let q = `SELECT url, username, title, description
+            FROM images
+            WHERE id = $1`;
+    let params = [id];
+    return db.query(q, params);
+};

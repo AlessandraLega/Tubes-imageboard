@@ -13,17 +13,24 @@
             <input v-model="username" type="text" name="username" placeholder="username">
             <input @change="handleChange" type="file" name="file" accept="image/*">
             <button @click="handleClick">Submit</button>
-        
         <div id="container">
             <div class="img-container" v-for="each in images">
-                <img @click="openModal" :src="each.url" v-bind:alt="each.description">
+                <img @click="openModal(each.id)" :src="each.url" v-bind:alt="each.description">
                 <p class="title">{{each.title}}</p>
             </div>
         </div>
-        <!-- <img-modal v-if="current-image"></img-modal> -->
+        <img-modal @close="reallyClose" :cur-id="curId" v-if="curId"></img-modal>
     </div>
+    
 
-    <!-- <script id="modal-template" type="text/x-template"> -->
+    <script id="modal-template" type="text/x-template" >
+        <div @click="close" class="modal-container">
+                <img :src="curUrl" v-bind:alt="curDescription">
+                <h3>{{curTitle}}</h3>
+                <p>{{curDescription}}</p>
+                <!--<p>{{username}}</p>
+                <p>{{createdAt}}</p> -->
+        </div>
     </script>
 
     <script src="/js/vue.js"></script>

@@ -8,6 +8,7 @@ const s3 = require("./s3.js");
 const { s3Url } = require("./config.json");
 
 app.use(express.static("public"));
+app.use(express.json());
 
 const diskStorage = multer.diskStorage({
     destination: function (req, file, callback) {
@@ -57,6 +58,15 @@ app.post("/upload", uploader.single("file"), s3.upload, (req, res) => {
     //         success: false,
     //     });
     // }
+});
+
+app.get("/modal/:id", (req, res) => {
+    let id = req.params.id;
+    console.log(req.params);
+
+    db.getModalImage(id).then((results) => {
+        res.json(results.rows[0]);
+    });
 });
 
 app.listen(8080, () => console.log("listening"));

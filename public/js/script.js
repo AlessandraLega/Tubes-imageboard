@@ -7,6 +7,7 @@
             description: "",
             username: "",
             file: null,
+            curId: "",
         },
         mounted: function () {
             var self = this;
@@ -45,8 +46,14 @@
                 console.log("e.target.files[0]: ", e.target.files[0]);
                 this.file = e.target.files[0];
             },
-            openModal: function (e) {
-                console.log(e);
+            openModal: function (id) {
+                console.log(id);
+                this.curId = id;
+                console.log(this.curId);
+            },
+            reallyClose: function () {
+                this.curId = null;
+                console.log("reallyClosed fired");
             },
         },
     });
