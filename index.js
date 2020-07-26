@@ -62,11 +62,38 @@ app.post("/upload", uploader.single("file"), s3.upload, (req, res) => {
 
 app.get("/modal/:id", (req, res) => {
     let id = req.params.id;
-    console.log(req.params);
-
+    // console.log(req.params);
     db.getModalImage(id).then((results) => {
         res.json(results.rows[0]);
     });
+});
+
+app.post("/comment", (req, res) => {
+    db.addComment(req.body.curId, req.body.comment, req.body.commentUsername)
+        .then((results) => {
+            console.log("add comment: ", results.rows[0]);
+            res.json(results.rows[0]);
+        })
+        .catch((err) => {
+            console.log("error in post comment: ", err);
+        });
+});
+
+app.get("/comments/:id", (req, res) => {
+    let id = req.params.id;
+    console.log();
+    db.getComments(id).then((results) => {
+        // console.log("get comments: ", results.rows);
+        res.json(results.rows);
+    });
+});
+
+app.get("/more/:id", (req, res) => {
+    db.getMoreImages(req.params.id)
+        .then((results) => {
+            res.json(results.rows);
+        })
+        .catch((err) => console.log("error in more: ", err));
 });
 
 app.listen(8080, () => console.log("listening"));

@@ -19,17 +19,28 @@
                 <p class="title">{{each.title}}</p>
             </div>
         </div>
-        <img-modal @close="reallyClose" :cur-id="curId" v-if="curId"></img-modal>
+        <button @click="showMore" v-if="more">More</button>
+        <img-modal @close="reallyClose" :cur-id="curId" v-if="curId" ></img-modal>
+
     </div>
     
 
     <script id="modal-template" type="text/x-template" >
-        <div @click="close" class="modal-container">
-                <img :src="curUrl" v-bind:alt="curDescription">
+        <div  class="modal-container">
+                <img :src="curUrl" v-bind:alt="curDescription" @click="close">
                 <h3>{{curTitle}}</h3>
                 <p>{{curDescription}}</p>
-                <!--<p>{{username}}</p>
-                <p>{{createdAt}}</p> -->
+                <p>Uploaded by {{curUsername}} on {{curTime}}</p>
+                <div id="comment-section">
+                    <h3>Add a comment!</h3>
+                    <input v-model="comment" type="text" name="comment" placeholder="comment">
+                    <input v-model="commentUsername" type="text" name="commentUsername" placeholder="username">
+                    <button @click="submitComments">Submit</button>
+                    <div id="comments" v-for="each in allComments">
+                        <p>{{each.comment}}</p> 
+                        <p>{{each.comment_username}} on {{each.created_at}}</p>
+                    </div>
+                </div>
         </div>
     </script>
 

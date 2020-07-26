@@ -8,6 +8,11 @@ Vue.component("img-modal", {
             curUrl: "",
             curTitle: "",
             curDescription: "",
+            curUsername: "",
+            curTime: "",
+            commentUsername: "",
+            comment: "",
+            allComments: [],
         };
         // return { ok: "ok" };
     },
@@ -19,15 +24,48 @@ Vue.component("img-modal", {
                 self.curUrl = response.data.url;
                 self.curTitle = response.data.title;
                 self.curDescription = response.data.description;
+                self.curUsername = response.data.username;
+                self.curTime = response.data.created_at;
             })
             .catch(function (err) {
                 console.log("error in openModal: ", err);
+            });
+        axios
+            .get("/comments/" + this.curId)
+            .then(function (results) {
+                console.log("get comments worked, ", results);
+                self.allComments = results.data;
+            })
+            .catch(function (err) {
+                console.log("get comments didn't work, ", err);
             });
     }, //end mounted
     methods: {
         close: function () {
             console.log("close was fired!");
             this.$emit("close");
+        },
+        submitComments: function () {
+            console.log("submitComments was fired!");
+            console.log(this.comment);
+            var self = this;
+            axios
+                .post("/comment", {
+                    curId: this.curId,
+                    comment: this.comment,
+                    commentUsername: this.commentUsername,
+                })
+                .then(function (results) {
+                    // console.log("results in axios: ", results);
+                    self.allComments.unshift(results.data);
+                    console.log(
+                        "allComments after unshift: ",
+                        self.allComments
+                    );
+                })
+                .catch(function (err) {
+                    console.log("post not working: ", err);
+                });
         },
     },
 });
