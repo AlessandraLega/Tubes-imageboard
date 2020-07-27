@@ -31,7 +31,7 @@ img {
 
 .modal-container {
     position: absolute;
-    top: 10%;
+    top: 0;
     width: 100vw;
     background-color: rgba(0, 0, 0, 0.75);
     display: grid;
@@ -39,9 +39,10 @@ img {
 }
 
 #card {
+    padding-top: 10%;
     text-align: center;
     background-color: teal;
-    width: 50%;
+    align-self: center;
 }
 
 .comments {
@@ -52,4 +53,12 @@ img {
     width: 100px;
     object-fit: contain;
     background-color: white;
+}
+
+.left {
+    justify-self: end;
+}
+
+.right {
+    justify-self: start;
 }

@@ -13,7 +13,6 @@
         },
         mounted: function () {
             var self = this;
-            //this.checkMore();
             // location.hash = "";
             // this.curId = null;
             axios
@@ -59,9 +58,9 @@
                 // console.log("e.target.files[0]: ", e.target.files[0]);
                 this.file = e.target.files[0];
             },
-            /* openModal: function (id) {
+            openModal: function (id) {
                 this.curId = id;
-            }, */
+            },
             reallyClose: function () {
                 this.curId = null;
                 location.hash = "";
@@ -69,17 +68,16 @@
             },
             reallyDelete: function (deletedId) {
                 let self = this;
-                console.log("self.images:", self.images);
-                /* for (let i = 0; i < this.images.length; i++) {
-                    if (self.images[i].id === deletedId) {
-                        self.images.splice(i, 1);
+                for (let i = 0; i < this.images.length; i++) {
+                    if (this.images[i].id == deletedId) {
+                        this.images.splice(i, 1);
                     }
                 }
                 axios.get("/next/" + this.lastId).then(function (response) {
                     self.images.push(response.data);
-                }); */
+                });
             },
-            /*             checkMore: function () {
+            checkMore: function () {
                 let lastObj = this.images.slice(-1);
                 let lastIdOnScreen = lastObj[0].id;
                 this.lastId = lastIdOnScreen;
@@ -88,7 +86,7 @@
                 } else {
                     this.more = false;
                 }
-            }, */
+            },
             showMore: function () {
                 let self = this;
                 let lastObj = self.images.slice(-1);

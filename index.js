@@ -39,7 +39,7 @@ app.get("/images", (req, res) => {
 });
 
 app.post("/upload", uploader.single("file"), s3.upload, (req, res) => {
-    console.log("req.file from index.js post/upload: ", req.file);
+    // console.log("req.file from index.js post/upload: ", req.file);
     // console.log("req.body from index.js post/upload: ", req.body);
     const { title, desc, username } = req.body;
     const { filename } = req.file;
@@ -97,7 +97,6 @@ app.get("/more/:id", (req, res) => {
 });
 
 app.post("/delete", (req, res) => {
-    console.log("req.body: ", req.body);
     db.deleteComments(req.body.id)
         .then(() => {
             db.deleteImg(req.body.id)
@@ -114,7 +113,6 @@ app.post("/delete", (req, res) => {
 });
 
 app.get("/next/:lastId", (req, res) => {
-    console.log("req.params.lastId: ", req.params.lastId);
     db.getNext(req.params.lastId).then((results) => {
         res.json(results.rows[0]);
     });

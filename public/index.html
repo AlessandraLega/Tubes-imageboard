@@ -30,7 +30,7 @@
 
     <script id="modal-template" type="text/x-template" >
         <div  class="modal-container">
-            <img v-if="lastId" class="arrows" src="/assets/back.png" @click="lastpic">
+            <img v-if="lastId" class="arrows left" src="/assets/back.png" @click="lastpic">
             <div id="card">
                 <img :src="curUrl" v-bind:alt="curDescription" @click="close">
                 <h3>{{curTitle}}</h3>
@@ -48,7 +48,7 @@
                     </div>
                 </div>
             </div>
-            <img v-if="nextId" class="arrows" src="/assets/next.png" @click="nextpic">
+            <img v-if="nextId" class="arrows right" src="/assets/next.png" @click="nextpic">
         </div>
     </script>
 
