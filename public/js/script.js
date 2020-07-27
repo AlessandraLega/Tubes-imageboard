@@ -9,35 +9,31 @@
             file: null,
             curId: location.hash.slice(1),
             more: null,
+            lastId: null,
         },
         mounted: function () {
             var self = this;
+            //this.checkMore();
             // location.hash = "";
             // this.curId = null;
             axios
                 .get("/images")
                 .then(function (results) {
                     self.images = results.data;
-                    let lastObj = self.images.slice(-1);
-                    let lastIdOnScreen = lastObj[0].id;
-                    if (lastIdOnScreen > results.data[0].lowestId) {
-                        self.more = true;
-                    } else {
-                        self.more = false;
-                    }
+                    self.checkMore();
                 })
                 .catch(function (error) {
                     console.log("error in axios: ", error);
                 });
             window.addEventListener("hashchange", function () {
-                console.log("hashChange has fired!");
+                // console.log("hashChange has fired!");
                 self.curId = location.hash.slice(1);
             });
         }, //end mounted
         methods: {
             handleClick: function (e) {
                 var self = this;
-                console.log("running");
+                // console.log("running");
                 e.preventDefault();
                 var formData = new FormData();
                 formData.append("title", this.title);
@@ -49,31 +45,48 @@
                     .then(function (resp) {
                         // console.log("resp in post /upload: ", resp.data);
                         self.images.unshift(resp.data);
+                        self.title = "";
+                        self.description = "";
+                        self.username = "";
+                        self.file = null;
                     })
                     .catch(function (err) {
                         console.log("error in post /upload: ", err);
                     });
             },
             handleChange: function (e) {
-                console.log("this.file: ", this.file);
-                console.log("e.target.files[0]: ", e.target.files[0]);
+                // console.log("this.file: ", this.file);
+                // console.log("e.target.files[0]: ", e.target.files[0]);
                 this.file = e.target.files[0];
             },
-            openModal: function (id) {
+            /* openModal: function (id) {
                 this.curId = id;
-            },
+            }, */
             reallyClose: function () {
                 this.curId = null;
                 location.hash = "";
-                console.log("reallyClosed fired");
+                // console.log("reallyClosed fired");
+            },
+            reallyDelete: function (deletedId) {
+                let self = this;
+                console.log("self.images:", self.images);
+                /* for (let i = 0; i < this.images.length; i++) {
+                    if (self.images[i].id === deletedId) {
+                        self.images.splice(i, 1);
+                    }
+                }
+                axios.get("/next/" + this.lastId).then(function (response) {
+                    self.images.push(response.data);
+                }); */
             },
             /*             checkMore: function () {
-                let lastObj = self.images.slice(-1);
+                let lastObj = this.images.slice(-1);
                 let lastIdOnScreen = lastObj[0].id;
-                if (lastIdOnScreen > results.data[0].lowestId) {
-                    self.more = true;
+                this.lastId = lastIdOnScreen;
+                if (lastIdOnScreen > this.images[0].lowestId) {
+                    this.more = true;
                 } else {
-                    self.more = false;
+                    this.more = false;
                 }
             }, */
             showMore: function () {
@@ -82,16 +95,9 @@
                 let lastIdOnScreen = lastObj[0].id;
                 axios.get("/more/" + lastIdOnScreen).then(function (results) {
                     for (let i = 0; i < results.data.length; i++) {
-                        console.log("results.data[i]: ", results.data[i]);
                         self.images.push(results.data[i]);
                     }
-                    let lastObj = self.images.slice(-1);
-                    let lastIdOnScreen = lastObj[0].id;
-                    if (lastIdOnScreen > results.data[0].lowestId) {
-                        self.more = true;
-                    } else {
-                        self.more = false;
-                    }
+                    self.checkMore();
                 });
             },
         },

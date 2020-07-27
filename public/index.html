@@ -23,19 +23,20 @@
             </div>
         </div>
         <button @click="showMore" v-if="more">More</button>
-        <img-modal @close="reallyClose" :cur-id="curId" v-if="curId" ></img-modal>
+        <img-modal @close="reallyClose" @delete="reallyDelete" :cur-id="curId" v-if="curId" ></img-modal>
 
     </div>
     
 
     <script id="modal-template" type="text/x-template" >
         <div  class="modal-container">
-            <img class="arrows" src="/assets/arrow2.png" @click="lastpic">
+            <img v-if="lastId" class="arrows" src="/assets/back.png" @click="lastpic">
             <div id="card">
                 <img :src="curUrl" v-bind:alt="curDescription" @click="close">
                 <h3>{{curTitle}}</h3>
                 <p>{{curDescription}}</p>
                 <p>Uploaded by {{curUsername}} on {{curTime}}</p>
+                <button @click="deleteImg(curId)">Delete</button>
                 <div id="comment-section">
                     <h3>Add a comment!</h3>
                     <input v-model="comment" type="text" name="comment" placeholder="comment">
@@ -47,7 +48,7 @@
                     </div>
                 </div>
             </div>
-            <img class="arrows" src="/assets/arrow2.png" @click="nextpic">
+            <img v-if="nextId" class="arrows" src="/assets/next.png" @click="nextpic">
         </div>
     </script>
 

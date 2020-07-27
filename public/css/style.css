@@ -47,3 +47,9 @@ img {
 .comments {
     text-align: left;
 }
+
+.arrows {
+    width: 100px;
+    object-fit: contain;
+    background-color: white;
+}

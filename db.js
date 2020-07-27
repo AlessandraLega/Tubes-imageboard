@@ -65,3 +65,24 @@ module.exports.getComments = function (curId) {
     let params = [curId];
     return db.query(q, params);
 };
+
+module.exports.deleteImg = function (id) {
+    let q = `DELETE FROM images WHERE id = $1`;
+    let params = [id];
+    return db.query(q, params);
+};
+
+module.exports.deleteComments = function (id) {
+    let q = `DELETE FROM comments WHERE image_id = $1`;
+    let params = [id];
+    return db.query(q, params);
+};
+
+module.exports.getNext = function (id) {
+    let q = `SELECT id FROM images
+            WHERE id < $1
+            ORDER BY id DESC
+            LIMIT 1`;
+    let params = [id];
+    return db.query(q, params);
+};

@@ -96,4 +96,28 @@ app.get("/more/:id", (req, res) => {
         .catch((err) => console.log("error in more: ", err));
 });
 
+app.post("/delete", (req, res) => {
+    console.log("req.body: ", req.body);
+    db.deleteComments(req.body.id)
+        .then(() => {
+            db.deleteImg(req.body.id)
+                .then(() => {
+                    res.json({ success: true });
+                })
+                .catch((err) => {
+                    console.log("error in deleteImg");
+                });
+        })
+        .catch((err) => {
+            console.log("error in deleteComments: ", err);
+        });
+});
+
+app.get("/next/:lastId", (req, res) => {
+    console.log("req.params.lastId: ", req.params.lastId);
+    db.getNext(req.params.lastId).then((results) => {
+        res.json(results.rows[0]);
+    });
+});
+
 app.listen(8080, () => console.log("listening"));

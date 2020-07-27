@@ -20,11 +20,10 @@ Vue.component("img-modal", {
     },
     mounted: function () {
         var self = this;
-        console.log("mounting the modal");
+        // console.log("mounting the modal");
         axios
             .get("/modal/" + this.curId)
             .then(function (response) {
-                console.log("response.data: ", response.data);
                 self.curUrl = response.data.url;
                 self.curTitle = response.data.title;
                 self.curDescription = response.data.description;
@@ -48,7 +47,7 @@ Vue.component("img-modal", {
     }, //end mounted
     watch: {
         curId: function () {
-            console.log("watch happening");
+            // console.log("watch happening");
             var self = this;
             axios
                 .get("/modal/" + this.curId)
@@ -67,7 +66,6 @@ Vue.component("img-modal", {
             axios
                 .get("/comments/" + this.curId)
                 .then(function (results) {
-                    console.log("get comments worked, ", results);
                     self.allComments = results.data;
                 })
                 .catch(function (err) {
@@ -77,12 +75,10 @@ Vue.component("img-modal", {
     },
     methods: {
         close: function () {
-            console.log("close was fired!");
+            // console.log("close was fired!");
             this.$emit("close");
         },
         submitComments: function () {
-            console.log("submitComments was fired!");
-            console.log(this.comment);
             var self = this;
             axios
                 .post("/comment", {
@@ -93,10 +89,8 @@ Vue.component("img-modal", {
                 .then(function (results) {
                     // console.log("results in axios: ", results);
                     self.allComments.unshift(results.data);
-                    console.log(
-                        "allComments after unshift: ",
-                        self.allComments
-                    );
+                    self.commentUsername = "";
+                    self.comment = "";
                 })
                 .catch(function (err) {
                     console.log("post not working: ", err);
@@ -109,6 +103,18 @@ Vue.component("img-modal", {
         nextpic: function () {
             console.log("nextpic fired!");
             location.hash = this.nextId;
+        },
+        deleteImg: function (deletedId) {
+            let self = this;
+            axios
+                .post("/delete", { id: deletedId })
+                .then(function () {
+                    location.hash = "";
+                    self.$emit("delete", deletedId);
+                })
+                .catch((err) => {
+                    console.log("error in deleteImg :", err);
+                });
         },
     },
 });
