@@ -7,16 +7,17 @@
             description: "",
             username: "",
             file: null,
-            curId: "",
+            curId: location.hash.slice(1),
             more: null,
         },
         mounted: function () {
             var self = this;
+            // location.hash = "";
+            // this.curId = null;
             axios
                 .get("/images")
                 .then(function (results) {
                     self.images = results.data;
-
                     let lastObj = self.images.slice(-1);
                     let lastIdOnScreen = lastObj[0].id;
                     if (lastIdOnScreen > results.data[0].lowestId) {
@@ -28,6 +29,10 @@
                 .catch(function (error) {
                     console.log("error in axios: ", error);
                 });
+            window.addEventListener("hashchange", function () {
+                console.log("hashChange has fired!");
+                self.curId = location.hash.slice(1);
+            });
         }, //end mounted
         methods: {
             handleClick: function (e) {
@@ -59,9 +64,10 @@
             },
             reallyClose: function () {
                 this.curId = null;
+                location.hash = "";
                 console.log("reallyClosed fired");
             },
-            checkMore: function () {
+            /*             checkMore: function () {
                 let lastObj = self.images.slice(-1);
                 let lastIdOnScreen = lastObj[0].id;
                 if (lastIdOnScreen > results.data[0].lowestId) {
@@ -69,13 +75,12 @@
                 } else {
                     self.more = false;
                 }
-            },
+            }, */
             showMore: function () {
                 let self = this;
                 let lastObj = self.images.slice(-1);
                 let lastIdOnScreen = lastObj[0].id;
                 axios.get("/more/" + lastIdOnScreen).then(function (results) {
-                    console.log("results.data: ", results.data);
                     for (let i = 0; i < results.data.length; i++) {
                         console.log("results.data[i]: ", results.data[i]);
                         self.images.push(results.data[i]);

@@ -28,3 +28,22 @@ img {
 .container p {
     padding-left: 5px;
 }
+
+.modal-container {
+    position: absolute;
+    top: 10%;
+    width: 100vw;
+    background-color: rgba(0, 0, 0, 0.75);
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+}
+
+#card {
+    text-align: center;
+    background-color: teal;
+    width: 50%;
+}
+
+.comments {
+    text-align: left;
+}

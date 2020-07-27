@@ -39,7 +39,15 @@ module.exports.addImage = function (url, username, title, description) {
 };
 
 module.exports.getModalImage = function (id) {
-    let q = `SELECT url, username, title, description, created_at
+    let q = `SELECT *, (
+            SELECT id FROM images
+            WHERE id > $1
+            ORDER BY id ASC
+            LIMIT 1) AS lastId,
+            (SELECT id FROM images
+            WHERE id < $1
+            ORDER BY id DESC
+            LIMIT 1) AS nextId
             FROM images
             WHERE id = $1`;
     let params = [id];
