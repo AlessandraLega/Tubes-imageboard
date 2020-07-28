@@ -18,6 +18,7 @@
             axios
                 .get("/images")
                 .then(function (results) {
+                    console.log("results.data :", results.data);
                     self.images = results.data;
                     self.checkMore();
                 })

@@ -19,6 +19,10 @@ Vue.component("img-modal", {
         // return { ok: "ok" };
     },
     mounted: function () {
+        var body = $("#not-modal");
+        body.css({
+            overflow: "hidden",
+        });
         var self = this;
         // console.log("mounting the modal");
         axios
@@ -75,6 +79,10 @@ Vue.component("img-modal", {
     },
     methods: {
         close: function () {
+            var body = $("#not-modal");
+            body.css({
+                overflow: "visible",
+            });
             // console.log("close was fired!");
             this.$emit("close");
         },
@@ -105,6 +113,10 @@ Vue.component("img-modal", {
             location.hash = this.nextId;
         },
         deleteImg: function (deletedId) {
+            var body = $("#not-modal");
+            body.css({
+                overflow: "visible",
+            });
             let self = this;
             axios
                 .post("/delete", { id: deletedId })

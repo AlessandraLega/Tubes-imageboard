@@ -3,55 +3,72 @@
 <head>
     <title>My Imageboard</title>
     <link rel="stylesheet" href="/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Arvo:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <h1>My Image board</h1>
     <div id="main">
-        
-            <input v-model="title" type="text" name="title" placeholder="title">
-            <input v-model="description" type="text" name="description" placeholder="description">
-            <input v-model="username" type="text" name="username" placeholder="username">
-            <input @change="handleChange" type="file" name="file" accept="image/*">
-            <button @click="handleClick">Submit</button>
-        <div id="container">
-            <div class="img-container" v-for="each in images">
-                <a :href=" '#' + each.id"> 
-                <!-- <img @click="openModal(each.id)" :src="each.url" v-bind:alt="each.description"> -->
-                <img :src="each.url" v-bind:alt="each.description">
-                </a>
-                <p class="title">{{each.title}}</p>
+        <div id="not-modal">
+            <h1>My Image board</h1>
+            <div id="line"></div>
+            <div class="form">
+                <p>Add a picture!</p>
+                <input v-model="title" type="text" name="title" placeholder="title">
+                <input v-model="description" type="text" name="description" placeholder="description">
+                <input v-model="username" type="text" name="username" placeholder="username">
+                <input @change="handleChange" type="file" name="file" accept="image/*">
+                <br>
+                <button @click="handleClick">Submit</button>
             </div>
-        </div>
-        <button @click="showMore" v-if="more">More</button>
-        <img-modal @close="reallyClose" @delete="reallyDelete" :cur-id="curId" v-if="curId" ></img-modal>
-
-    </div>
-    
-
-    <script id="modal-template" type="text/x-template" >
-        <div  class="modal-container">
-            <img v-if="lastId" class="arrows left" src="/assets/back.png" @click="lastpic">
-            <div id="card">
-                <img :src="curUrl" v-bind:alt="curDescription" @click="close">
-                <h3>{{curTitle}}</h3>
-                <p>{{curDescription}}</p>
-                <p>Uploaded by {{curUsername}} on {{curTime}}</p>
-                <button @click="deleteImg(curId)">Delete</button>
-                <div id="comment-section">
-                    <h3>Add a comment!</h3>
-                    <input v-model="comment" type="text" name="comment" placeholder="comment">
-                    <input v-model="commentUsername" type="text" name="commentUsername" placeholder="username">
-                    <button @click="submitComments">Submit</button>
-                    <div id="comments" v-for="each in allComments">
-                        <p>{{each.comment}}</p> 
-                        <p>{{each.comment_username}} on {{each.created_at}}</p>
-                    </div>
+            <div id="container">
+                <div class="img-container" v-for="each in images">
+                    <a :href=" '#' + each.id"> 
+                    <!-- <img @click="openModal(each.id)" :src="each.url" v-bind:alt="each.description"> -->
+                    <img :src="each.url" v-bind:alt="each.description">
+                    </a>
+                    <p class="title">{{each.title}}</p>
                 </div>
             </div>
-            <img v-if="nextId" class="arrows right" src="/assets/next.png" @click="nextpic">
+            <div id="button-container">
+                <button @click="showMore" v-if="more" id="more">More</button>
+            </div>
+        </div>
+        <img-modal @close="reallyClose" @delete="reallyDelete" :cur-id="curId" v-if="curId" ></img-modal>
+    </div>
+
+
+
+    <script id="modal-template" type="text/x-template" >
+        <div class="modal-container">
+            <div id="card-arrows-container">
+            <img v-if="lastId" class="arrows left" src="/assets/back.png" @click="lastpic">
+            <img v-else class="arrows left" src="/assets/minus.png">
+                <div id="card">
+                    <img class="modal-img" :src="curUrl" class="modal-img" @click="close">
+                    <h3>{{curTitle}}</h3>
+                    <p class="description">{{curDescription}}</p>
+                    <p>Uploaded by {{curUsername}} on {{curTime}}</p>
+                    <button @click="deleteImg(curId)">Delete</button>
+                    <div id="comment-section">
+                        <h4>Add a comment!</h4>
+                        <input v-model="comment" type="text" name="comment" placeholder="comment">
+                        <input v-model="commentUsername" type="text" name="commentUsername" placeholder="username">
+                    <br>
+                        <button @click="submitComments">Submit</button>
+                        <div id="comments" v-for="each in allComments">
+                            <div class="comment-block">
+                            <p class="comment">{{each.comment}}</p> 
+                            <p>{{each.comment_username}} on {{each.created_at}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <img v-if="nextId" class="arrows right" src="/assets/next.png" @click="nextpic">
+                <img v-else class="arrows right" src="/assets/minus.png">
+            </div>
         </div>
     </script>
 
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script src="/js/vue.js"></script>
     <script src="/js/axios.min.js"></script>
     <script src="/js/components.js"></script>
