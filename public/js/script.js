@@ -64,7 +64,8 @@
             },
             reallyClose: function () {
                 this.curId = null;
-                location.hash = "";
+                // location.hash = "";
+                window.history.pushState(null, null, "#");
                 // console.log("reallyClosed fired");
             },
             reallyDelete: function (deletedId) {
