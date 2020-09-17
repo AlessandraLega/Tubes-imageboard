@@ -65,7 +65,7 @@
             reallyClose: function () {
                 this.curId = null;
                 // location.hash = "";
-                window.history.pushState(null, null, "#");
+                window.history.pushState(null, null, "");
                 // console.log("reallyClosed fired");
             },
             reallyDelete: function (deletedId) {
@@ -90,6 +90,7 @@
                 }
             },
             showMore: function () {
+                let scrollTop = pageYOffset;
                 let self = this;
                 let lastObj = self.images.slice(-1);
                 let lastIdOnScreen = lastObj[0].id;
@@ -99,6 +100,9 @@
                     }
                     self.checkMore();
                 });
+                setTimeout(function () {
+                    scrollTo(0, scrollTop);
+                }, 60);
             },
         },
     });
