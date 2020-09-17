@@ -104,7 +104,7 @@ app.post("/delete", (req, res) => {
                     res.json({ success: true });
                 })
                 .catch((err) => {
-                    console.log("error in deleteImg");
+                    console.log("error in deleteImg", err);
                 });
         })
         .catch((err) => {
