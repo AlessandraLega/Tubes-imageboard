@@ -18,7 +18,7 @@ Instagram-inspired, single-page application website to collect tubes pictures fr
 
 The users are shown the last most recent 6 pictures of the collection. Every time they click on the button "more" 6 more pictures are loaded, until the last picture is reached and the button disappears.
 
-<img src="/loadpics.gif" />
+<img src="./public/loadpics.gif" />
 
 Users can upload new pictures from the top of the page, the images are stored in AWS.
 
